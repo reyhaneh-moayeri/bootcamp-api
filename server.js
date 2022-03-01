@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const colors = require("colors");
 // routes
 const bootcamps = require("./routes/bootcamps");
 // const logger = require("./middleware/logger");
@@ -17,13 +18,14 @@ if (process.env.NODE_ENV === "development") {
 // mount routes
 app.use("/api/v1/bootcamps", bootcamps);
 const PORT = process.env.PORT || 5000;
-const server = app.listen(
-  PORT,
-  () => `server running in ${process.env.NODE_ENV} on port ${PORT}`
+const server = app.listen(PORT, () =>
+  console.log(
+    `server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold
+  )
 );
 
 // handle rejections
 process.on("unhandledRejection", (err, promise) => {
-  console.error(`Error: ${err.message}`);
+  console.error(`Error: ${err.message}`.red);
   server.close(() => process.exit(1));
 });
